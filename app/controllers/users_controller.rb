@@ -1,9 +1,24 @@
 class UsersController < ApplicationController
   
+  def authenticate
+
+    render({ :plain => "hi" })
+  end
+
+
+  def sign_in
+
+    render({ :template => "users/sign_in_form.html.erb"})
+  end
+
+
+  def sign_out
+    reset_session
+    redirect_to("/", { :notice => "See ya later!"})
+  end
+
+
   def new_registration_form
-    
-
-
     render({ :template => "users/signup_form.html.erb"})
   end
 
@@ -31,6 +46,9 @@ class UsersController < ApplicationController
     save_status = user.save
 
     if save_status == true
+      #storing user id in a cookie
+      session.store(:user_id, user.id)
+
       redirect_to("/users/#{user.username}", { :notice => "Welcome, #{user.username}!"})
     else
       redirect_to("/user_sign_up", { :alert => user.errors.full_messages.to_sentence })
