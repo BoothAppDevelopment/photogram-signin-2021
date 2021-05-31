@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     if save_status == true
       redirect_to("/users/#{user.username}", { :notice => "Welcome, #{user.username}!"})
     else
-      redirect_to("/user_sign_up")
+      redirect_to("/user_sign_up", { :alert => user.errors.full_messages.to_sentence })
     end
 
   end
